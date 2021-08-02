@@ -19,7 +19,7 @@ namespace BankModel.Core.Entities.ValidationRules
 
         public bool Validate(ITransactionRequest request, IAccount account)
         {
-            return !(request.Amount > limit);
+            return !(-request.Amount > limit);
         }
     }
 }

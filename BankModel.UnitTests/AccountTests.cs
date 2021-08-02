@@ -87,7 +87,7 @@ namespace BankModel.UnitTests
             var withdrawalAmount = 1200;
             var initialBalance = 2000;
             var account = new IndividualInvestmentAccount(initialBalance);
-            var withdrawalRequest = new DepositRequest(withdrawalAmount);
+            var withdrawalRequest = new WithdrawalRequest(withdrawalAmount);
 
             var isSuccess = account.ProcessTransaction(withdrawalRequest);
 
@@ -240,7 +240,17 @@ namespace BankModel.UnitTests
         [TestMethod]
         public void ProcessTransfer_ToCorporateFromIndividual_GreaterThanLimit_TransferNotSuccessful()
         {
+            var transferAmount = 1200;
+            var initialBalance = 2000;
+            var individualInvestmentAccount = new IndividualInvestmentAccount(initialBalance);
+            var corporateInvestmentAccount = new CorporateInvestmentAccount(initialBalance);
+            var withdrawalRequest = new TransferRequest(transferAmount);
 
+            var isSuccess = corporateInvestmentAccount.ProcessTransfer(individualInvestmentAccount, withdrawalRequest);
+
+            Assert.IsFalse(isSuccess);
+            Assert.AreEqual(initialBalance, individualInvestmentAccount.Balance);
+            Assert.AreEqual(initialBalance, corporateInvestmentAccount.Balance);
         }
     }
 }
